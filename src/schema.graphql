@@ -1,12 +1,48 @@
 type Query {
-  me: User!
+  me: Me!
   testimonials: [Testimonial!]!
   projects: [Project!]!
 }
 
-type User {
+type Mutation {
+  createProject(input: CreateProjectInput!): Project!
+  updateProject(input: UpdateProjectInput!): Project!
+  deleteProject(id: ID!): Project!
+}
+
+input CreateProjectInput {
+  name: String!
+  overview: String!
+  objective: String!
+  tools: [String!]!
+  links: CreateLinksInput!
+  createdAt: String!
+}
+
+input UpdateProjectInput {
+  id: ID!
+  name: String
+  overview: String
+  objective: String
+  tools: [String]
+  links: UpdateLinksInput
+}
+
+input CreateLinksInput {
+  project: String
+  git: String!
+}
+
+input UpdateLinksInput {
+  project: String
+  git: String
+}
+
+type Me {
+  id: ID!
   name: String!
   email: String!
+  password: String!
 }
 
 type Testimonial {
