@@ -1,9 +1,9 @@
+import Query from './Query'
+import Mutation from './Mutation'
+
 const resolvers = {
-  Query: {
-    me: () => ({ name: 'takuya', email: 'email' }),
-    testimonials: (parent, args, { db: { testimonials } }) => testimonials,
-    projects: (parent, args, { db: { projects } }) => projects
-  }
+  Query,
+  Mutation
 }
 
 export default resolvers
