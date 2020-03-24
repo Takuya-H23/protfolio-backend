@@ -1,0 +1,32 @@
+type Query {
+  me: User!
+  testimonials: [Testimonial!]!
+  projects: [Project!]!
+}
+
+type User {
+  name: String!
+  email: String!
+}
+
+type Testimonial {
+  id: ID!
+  name: String!
+  company: String!
+  text: String!
+}
+
+type Links {
+  project: String
+  git: String!
+}
+
+type Project {
+  id: ID!
+  name: String!
+  overview: String!
+  objective: String!
+  tools: [String!]!
+  links: Links!
+  createdAt: String!
+}
