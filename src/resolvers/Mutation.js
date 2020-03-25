@@ -1,32 +1,89 @@
 import uuid from 'uuid/v4'
 
 const Mutation = {
-  createProject: (parent, { input }, { db }) => {
-    const project = { id: uuid(), ...input }
-    db.projects.unshift(project)
-    return project
+  createTestimonial: async (parent, { ownerId, input }, { prisma }, info) => {
+    const owner = await prisma.exists.User({ id: ownerId })
+    if (!owner) throw new Error('Unable to find owner')
+
+    return prisma.mutation.createTestimonial(
+      { data: { ...input, owner: { connect: { id: ownerId } } } },
+      info
+    )
   },
-  updateProject: (parent, { input }, { db }) => {
-    const project = db.projects.find(project => project.id === input.id)
-    if (!project) throw new Error('Project not found')
+  updateTestimonial: async (
+    parent,
+    { ownerId, testimonialId, input },
+    { prisma },
+    info
+  ) => {
+    const testimonialExists = await prisma.exists.Testimonial({
+      id: testimonialId,
+      owner: { id: ownerId }
+    })
+    if (!testimonialExists) throw new Error('Testimonial not found')
 
-    if (input.name) project.name = input.name
-    if (input.overview) project.overview = input.overview
-    if (input.objective) project.objective = input.objective
-    if (input.tools?.length) project.tools = input.tools
-    if (input.gitAt) project.gitAt = input.gitAt
-    if (input.liveAt) project.liveAt = input.liveAt
-    if (input.deployedAt) project.deployedAt = input.deployedAt
-
-    db.projects.unshift(project)
-
-    return project
+    return prisma.mutation.updateTestimonial(
+      { data: input, where: { id: testimonialId } },
+      info
+    )
   },
-  deleteProject: (parent, { id }, { db }) => {
-    const project = db.projects.findIndex(project => project.id === id)
-    if (project === -1) throw new Error('Project not found')
+  deleteTestimonial: async (
+    parent,
+    { ownerId, testimonialId },
+    { prisma },
+    info
+  ) => {
+    const testimonialExists = await prisma.exists.Testimonial({
+      id: testimonialId,
+      owner: { id: ownerId }
+    })
+    if (!testimonialExists) throw new Error('Testimonial not found')
 
-    return db.projects.splice(project, 1)[0]
+    return prisma.mutation.deleteTestimonial(
+      { where: { id: testimonialId } },
+      info
+    )
+  },
+  createProject: async (parent, { input, ownerId }, { prisma }, info) => {
+    const owner = await prisma.exists.User({ id: ownerId })
+    if (!owner) throw new Error('Unable to find owner')
+
+    const data = {
+      ...input,
+      tools: { set: [...input.tools] },
+      owner: { connect: { id: ownerId } }
+    }
+    return prisma.mutation.createProject({ data }, info)
+  },
+  updateProject: async (
+    parent,
+    { ownerId, projectId, input },
+    { prisma },
+    info
+  ) => {
+    const projectExists = await prisma.exists.Project({
+      id: projectId,
+      owner: { id: ownerId }
+    })
+    if (!projectExists) throw new Error('Project not found')
+
+    if (input.tools?.length) {
+      input.tools = { set: [...input.tools] }
+    }
+
+    return prisma.mutation.updateProject(
+      { data: input, where: { id: projectId } },
+      info
+    )
+  },
+  deleteProject: async (parent, { ownerId, projectId }, { prisma }, info) => {
+    const projectExists = await prisma.exists.Project({
+      id: projectId,
+      owner: { id: ownerId }
+    })
+    if (!projectExists) throw new Error('Project not found')
+
+    return prisma.mutation.deleteProject({ where: { id: projectId } }, info)
   }
 }
 
