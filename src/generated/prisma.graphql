@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Wed Mar 25 2020 13:10:02 GMT-0400 (Eastern Daylight Time)
+# timestamp: Wed Mar 25 2020 17:39:25 GMT-0400 (Eastern Daylight Time)
 
 type AggregateProject {
   count: Int!
@@ -897,6 +897,7 @@ type Testimonial implements Node {
   name: String!
   company: String!
   text: String!
+  owner: User!
 }
 
 """A connection to a list of items."""
@@ -910,6 +911,19 @@ type TestimonialConnection {
 }
 
 input TestimonialCreateInput {
+  id: ID
+  name: String!
+  company: String!
+  text: String!
+  owner: UserCreateOneWithoutTestimonialsInput!
+}
+
+input TestimonialCreateManyWithoutOwnerInput {
+  create: [TestimonialCreateWithoutOwnerInput!]
+  connect: [TestimonialWhereUniqueInput!]
+}
+
+input TestimonialCreateWithoutOwnerInput {
   id: ID
   name: String!
   company: String!
@@ -941,6 +955,177 @@ type TestimonialPreviousValues {
   name: String!
   company: String!
   text: String!
+}
+
+input TestimonialScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TestimonialScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [TestimonialScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [TestimonialScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  company: String
+
+  """All values that are not equal to given value."""
+  company_not: String
+
+  """All values that are contained in given list."""
+  company_in: [String!]
+
+  """All values that are not contained in given list."""
+  company_not_in: [String!]
+
+  """All values less than the given value."""
+  company_lt: String
+
+  """All values less than or equal the given value."""
+  company_lte: String
+
+  """All values greater than the given value."""
+  company_gt: String
+
+  """All values greater than or equal the given value."""
+  company_gte: String
+
+  """All values containing the given string."""
+  company_contains: String
+
+  """All values not containing the given string."""
+  company_not_contains: String
+
+  """All values starting with the given string."""
+  company_starts_with: String
+
+  """All values not starting with the given string."""
+  company_not_starts_with: String
+
+  """All values ending with the given string."""
+  company_ends_with: String
+
+  """All values not ending with the given string."""
+  company_not_ends_with: String
+  text: String
+
+  """All values that are not equal to given value."""
+  text_not: String
+
+  """All values that are contained in given list."""
+  text_in: [String!]
+
+  """All values that are not contained in given list."""
+  text_not_in: [String!]
+
+  """All values less than the given value."""
+  text_lt: String
+
+  """All values less than or equal the given value."""
+  text_lte: String
+
+  """All values greater than the given value."""
+  text_gt: String
+
+  """All values greater than or equal the given value."""
+  text_gte: String
+
+  """All values containing the given string."""
+  text_contains: String
+
+  """All values not containing the given string."""
+  text_not_contains: String
+
+  """All values starting with the given string."""
+  text_starts_with: String
+
+  """All values not starting with the given string."""
+  text_not_starts_with: String
+
+  """All values ending with the given string."""
+  text_ends_with: String
+
+  """All values not ending with the given string."""
+  text_not_ends_with: String
 }
 
 type TestimonialSubscriptionPayload {
@@ -984,12 +1169,53 @@ input TestimonialUpdateInput {
   name: String
   company: String
   text: String
+  owner: UserUpdateOneRequiredWithoutTestimonialsInput
+}
+
+input TestimonialUpdateManyDataInput {
+  name: String
+  company: String
+  text: String
 }
 
 input TestimonialUpdateManyMutationInput {
   name: String
   company: String
   text: String
+}
+
+input TestimonialUpdateManyWithoutOwnerInput {
+  create: [TestimonialCreateWithoutOwnerInput!]
+  connect: [TestimonialWhereUniqueInput!]
+  set: [TestimonialWhereUniqueInput!]
+  disconnect: [TestimonialWhereUniqueInput!]
+  delete: [TestimonialWhereUniqueInput!]
+  update: [TestimonialUpdateWithWhereUniqueWithoutOwnerInput!]
+  updateMany: [TestimonialUpdateManyWithWhereNestedInput!]
+  deleteMany: [TestimonialScalarWhereInput!]
+  upsert: [TestimonialUpsertWithWhereUniqueWithoutOwnerInput!]
+}
+
+input TestimonialUpdateManyWithWhereNestedInput {
+  where: TestimonialScalarWhereInput!
+  data: TestimonialUpdateManyDataInput!
+}
+
+input TestimonialUpdateWithoutOwnerDataInput {
+  name: String
+  company: String
+  text: String
+}
+
+input TestimonialUpdateWithWhereUniqueWithoutOwnerInput {
+  where: TestimonialWhereUniqueInput!
+  data: TestimonialUpdateWithoutOwnerDataInput!
+}
+
+input TestimonialUpsertWithWhereUniqueWithoutOwnerInput {
+  where: TestimonialWhereUniqueInput!
+  update: TestimonialUpdateWithoutOwnerDataInput!
+  create: TestimonialCreateWithoutOwnerInput!
 }
 
 input TestimonialWhereInput {
@@ -1161,6 +1387,7 @@ input TestimonialWhereInput {
 
   """All values not ending with the given string."""
   text_not_ends_with: String
+  owner: UserWhereInput
 }
 
 input TestimonialWhereUniqueInput {
@@ -1171,6 +1398,7 @@ type User implements Node {
   id: ID!
   name: String!
   email: String!
+  testimonials(where: TestimonialWhereInput, orderBy: TestimonialOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Testimonial!]
   projects(where: ProjectWhereInput, orderBy: ProjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Project!]
 }
 
@@ -1188,6 +1416,7 @@ input UserCreateInput {
   id: ID
   name: String!
   email: String!
+  testimonials: TestimonialCreateManyWithoutOwnerInput
   projects: ProjectCreateManyWithoutOwnerInput
 }
 
@@ -1196,10 +1425,23 @@ input UserCreateOneWithoutProjectsInput {
   connect: UserWhereUniqueInput
 }
 
+input UserCreateOneWithoutTestimonialsInput {
+  create: UserCreateWithoutTestimonialsInput
+  connect: UserWhereUniqueInput
+}
+
 input UserCreateWithoutProjectsInput {
   id: ID
   name: String!
   email: String!
+  testimonials: TestimonialCreateManyWithoutOwnerInput
+}
+
+input UserCreateWithoutTestimonialsInput {
+  id: ID
+  name: String!
+  email: String!
+  projects: ProjectCreateManyWithoutOwnerInput
 }
 
 """An edge in a connection."""
@@ -1266,6 +1508,7 @@ input UserSubscriptionWhereInput {
 input UserUpdateInput {
   name: String
   email: String
+  testimonials: TestimonialUpdateManyWithoutOwnerInput
   projects: ProjectUpdateManyWithoutOwnerInput
 }
 
@@ -1281,14 +1524,33 @@ input UserUpdateOneRequiredWithoutProjectsInput {
   upsert: UserUpsertWithoutProjectsInput
 }
 
+input UserUpdateOneRequiredWithoutTestimonialsInput {
+  create: UserCreateWithoutTestimonialsInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutTestimonialsDataInput
+  upsert: UserUpsertWithoutTestimonialsInput
+}
+
 input UserUpdateWithoutProjectsDataInput {
   name: String
   email: String
+  testimonials: TestimonialUpdateManyWithoutOwnerInput
+}
+
+input UserUpdateWithoutTestimonialsDataInput {
+  name: String
+  email: String
+  projects: ProjectUpdateManyWithoutOwnerInput
 }
 
 input UserUpsertWithoutProjectsInput {
   update: UserUpdateWithoutProjectsDataInput!
   create: UserCreateWithoutProjectsInput!
+}
+
+input UserUpsertWithoutTestimonialsInput {
+  update: UserUpdateWithoutTestimonialsDataInput!
+  create: UserCreateWithoutTestimonialsInput!
 }
 
 input UserWhereInput {
@@ -1420,6 +1682,9 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   email_not_ends_with: String
+  testimonials_every: TestimonialWhereInput
+  testimonials_some: TestimonialWhereInput
+  testimonials_none: TestimonialWhereInput
   projects_every: ProjectWhereInput
   projects_some: ProjectWhereInput
   projects_none: ProjectWhereInput

@@ -2,6 +2,7 @@ type User {
   id: ID! @id
   name: String!
   email: String! @unique
+  testimonials: [Testimonial!]!
   projects: [Project!]!
 }
 
@@ -10,6 +11,7 @@ type Testimonial {
   name: String!
   company: String!
   text: String!
+  owner: User!
 }
 
 type Project {

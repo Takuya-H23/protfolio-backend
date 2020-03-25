@@ -6,6 +6,13 @@ type Query {
 }
 
 type Mutation {
+  createTestimonial(ownerId: ID!, input: CreateTestimonialInput!): Testimonial!
+  updateTestimonial(
+    ownerId: ID!
+    testimonialId: ID!
+    input: UpdateTestimonialInput!
+  ): Testimonial!
+  deleteTestimonial(ownerId: ID!, testimonialId: ID!): Testimonial!
   createProject(ownerId: ID!, input: CreateProjectInput!): Project!
   updateProject(
     ownerId: ID!
@@ -13,6 +20,18 @@ type Mutation {
     input: UpdateProjectInput!
   ): Project!
   deleteProject(ownerId: ID!, projectId: ID!): Project!
+}
+
+input CreateTestimonialInput {
+  name: String!
+  company: String!
+  text: String!
+}
+
+input UpdateTestimonialInput {
+  name: String
+  company: String
+  text: String
 }
 
 input CreateProjectInput {
@@ -39,6 +58,7 @@ type User {
   id: ID!
   name: String!
   email: String!
+  testimonials: [Testimonial!]!
   projects: [Project!]!
 }
 
@@ -47,6 +67,7 @@ type Testimonial {
   name: String!
   company: String!
   text: String!
+  owner: User!
 }
 
 type Project {
