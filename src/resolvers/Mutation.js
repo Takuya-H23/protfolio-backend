@@ -1,32 +1,46 @@
 import uuid from 'uuid/v4'
 
 const Mutation = {
-  createProject: (parent, { input }, { db }) => {
-    const project = { id: uuid(), ...input }
-    db.projects.unshift(project)
-    return project
+  createProject: async (parent, { input, ownerId }, { prisma }, info) => {
+    const owner = await prisma.exists.User({ id: ownerId })
+    if (!owner) throw new Error('Unable to find owner')
+
+    const data = {
+      ...input,
+      tools: { set: [...input.tools] },
+      owner: { connect: { id: ownerId } }
+    }
+    return prisma.mutation.createProject({ data }, info)
   },
-  updateProject: (parent, { input }, { db }) => {
-    const project = db.projects.find(project => project.id === input.id)
-    if (!project) throw new Error('Project not found')
+  updateProject: async (
+    parent,
+    { ownerId, projectId, input },
+    { prisma },
+    info
+  ) => {
+    const projectExists = await prisma.exists.Project({
+      id: projectId,
+      owner: { id: ownerId }
+    })
+    if (!projectExists) throw new Error('Project not found')
 
-    if (input.name) project.name = input.name
-    if (input.overview) project.overview = input.overview
-    if (input.objective) project.objective = input.objective
-    if (input.tools?.length) project.tools = input.tools
-    if (input.gitAt) project.gitAt = input.gitAt
-    if (input.liveAt) project.liveAt = input.liveAt
-    if (input.deployedAt) project.deployedAt = input.deployedAt
+    if (input.tools?.length) {
+      input.tools = { set: [...input.tools] }
+    }
 
-    db.projects.unshift(project)
-
-    return project
+    return prisma.mutation.updateProject(
+      { data: input, where: { id: projectId } },
+      info
+    )
   },
-  deleteProject: (parent, { id }, { db }) => {
-    const project = db.projects.findIndex(project => project.id === id)
-    if (project === -1) throw new Error('Project not found')
+  deleteProject: async (parent, { ownerId, projectId }, { prisma }, info) => {
+    const projectExists = await prisma.exists.Project({
+      id: projectId,
+      owner: { id: ownerId }
+    })
+    if (!projectExists) throw new Error('Project not found')
 
-    return db.projects.splice(project, 1)[0]
+    return prisma.mutation.deleteProject({ where: { id: projectId } }, info)
   }
 }
 
