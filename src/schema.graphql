@@ -1,5 +1,5 @@
 type Query {
-  me: Me!
+  user: User!
   testimonials: [Testimonial!]!
   projects: [Project!]!
 }
@@ -15,8 +15,9 @@ input CreateProjectInput {
   overview: String!
   objective: String!
   tools: [String!]!
-  links: CreateLinksInput!
-  createdAt: String!
+  gitAt: String!
+  liveAt: String
+  deployedAt: String!
 }
 
 input UpdateProjectInput {
@@ -25,20 +26,12 @@ input UpdateProjectInput {
   overview: String
   objective: String
   tools: [String]
-  links: UpdateLinksInput
+  gitAt: String
+  liveAt: String
+  deployedAt: String
 }
 
-input CreateLinksInput {
-  project: String
-  git: String!
-}
-
-input UpdateLinksInput {
-  project: String
-  git: String
-}
-
-type Me {
+type User {
   id: ID!
   name: String!
   email: String!
@@ -52,17 +45,13 @@ type Testimonial {
   text: String!
 }
 
-type Links {
-  project: String
-  git: String!
-}
-
 type Project {
   id: ID!
   name: String!
   overview: String!
   objective: String!
   tools: [String!]!
-  links: Links!
-  createdAt: String!
+  gitAt: String!
+  liveAt: String
+  deployedAt: String!
 }
