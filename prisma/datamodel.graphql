@@ -20,6 +20,6 @@ type Project {
   tools: [String!]! @scalarList(strategy: RELATION)
   gitAt: String!
   liveAt: String
-  deployedAt: DateTime!
+  deployedAt: String!
   owner: User!
 }
