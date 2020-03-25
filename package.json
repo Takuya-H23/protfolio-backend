@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon -e js,graphql --exec babel-node src/index.js",
+    "get-schema": "graphql get-schema -p prisma",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Takuya Hirata",
