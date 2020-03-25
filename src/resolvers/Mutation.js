@@ -14,10 +14,9 @@ const Mutation = {
     if (input.overview) project.overview = input.overview
     if (input.objective) project.objective = input.objective
     if (input.tools?.length) project.tools = input.tools
-    if (input.links && Object.entries(input.links).length) {
-      if (input.links.project) project.links.project = input.links.project
-      if (input.links.git) project.links.git = input.links.git
-    }
+    if (input.gitAt) project.gitAt = input.gitAt
+    if (input.liveAt) project.liveAt = input.liveAt
+    if (input.deployedAt) project.deployedAt = input.deployedAt
 
     db.projects.unshift(project)
 
