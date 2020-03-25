@@ -1,4 +1,25 @@
 type User {
   id: ID! @id
   name: String!
+  email: String! @unique
+  projects: [Project!]!
+}
+
+type Testimonial {
+  id: ID! @id
+  name: String!
+  company: String!
+  text: String!
+}
+
+type Project {
+  id: ID! @id
+  name: String!
+  overview: String!
+  objective: String!
+  tools: [String!]! @scalarList(strategy: RELATION)
+  gitAt: String!
+  liveAt: String
+  deployedAt: DateTime!
+  owner: User!
 }
