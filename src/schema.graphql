@@ -1,12 +1,78 @@
 type Query {
-  me: User!
+  user: User!
+  users: [User!]!
   testimonials: [Testimonial!]!
   projects: [Project!]!
 }
 
-type User {
+type Mutation {
+  loginUser(input: LoginUserInput): AuthPayload!
+  createUser(input: CreateUserInput!): AuthPayload!
+  createTestimonial(input: CreateTestimonialInput!): Testimonial!
+  updateTestimonial(
+    testimonialId: ID!
+    input: UpdateTestimonialInput!
+  ): Testimonial!
+  deleteTestimonial(testimonialId: ID!): Testimonial!
+  createProject(input: CreateProjectInput!): Project!
+  updateProject(projectId: ID!, input: UpdateProjectInput!): Project!
+  deleteProject(projectId: ID!): Project!
+}
+
+type AuthPayload {
+  user: User!
+  token: String!
+}
+
+input LoginUserInput {
+  email: String!
+  password: String!
+}
+
+input CreateUserInput {
   name: String!
   email: String!
+  password: String!
+}
+
+input CreateTestimonialInput {
+  name: String!
+  company: String!
+  text: String!
+}
+
+input UpdateTestimonialInput {
+  name: String
+  company: String
+  text: String
+}
+
+input CreateProjectInput {
+  name: String!
+  overview: String!
+  objective: String!
+  tools: [String!]!
+  gitAt: String!
+  liveAt: String
+  deployedAt: String!
+}
+
+input UpdateProjectInput {
+  name: String
+  overview: String
+  objective: String
+  tools: [String]
+  gitAt: String
+  liveAt: String
+  deployedAt: String
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String
+  testimonials: [Testimonial!]!
+  projects: [Project!]!
 }
 
 type Testimonial {
@@ -14,11 +80,7 @@ type Testimonial {
   name: String!
   company: String!
   text: String!
-}
-
-type Links {
-  project: String
-  git: String!
+  owner: User!
 }
 
 type Project {
@@ -27,6 +89,8 @@ type Project {
   overview: String!
   objective: String!
   tools: [String!]!
-  links: Links!
-  createdAt: String!
+  gitAt: String!
+  liveAt: String
+  deployedAt: String!
+  owner: User!
 }
