@@ -7,12 +7,18 @@
     "start": "node dist/index.js",
     "heroku-postbuild": "babel src --out-dir dist --copy-files",
     "dev": "env-cmd -f ./config/dev.env nodemon -e js,graphql --exec babel-node src/index.js",
-    "get-schema": "graphql get-schema -p prisma",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "get-schema": "graphql get-schema -p prisma --dotenv config/dev.env",
+    "test": "env-cmd -f ./config/test.env jest --watch --runInBand"
+  },
+  "jest": {
+    "globalSetup": "./tests/jest/globalSetup.js",
+    "globalTeardown": "./tests/jest/globalTeardown.js"
   },
   "author": "Takuya Hirata",
   "license": "ISC",
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.9.0",
+    "jest": "^25.2.3",
     "nodemon": "^2.0.2"
   },
   "dependencies": {
@@ -21,8 +27,12 @@
     "@babel/node": "^7.8.7",
     "@babel/polyfill": "^7.8.7",
     "@babel/preset-env": "^7.9.0",
+    "@babel/register": "^7.9.0",
+    "apollo-boost": "^0.4.7",
     "bcryptjs": "^2.4.3",
+    "cross-fetch": "^3.0.4",
     "env-cmd": "^10.1.0",
+    "graphql": "^14.6.0",
     "graphql-cli": "^3.0.14",
     "graphql-yoga": "^1.18.3",
     "jsonwebtoken": "^8.5.1",
