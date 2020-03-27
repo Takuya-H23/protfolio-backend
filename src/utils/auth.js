@@ -6,7 +6,7 @@ export function getUserId(req) {
   if (!header) return null
 
   const token = header.replace('Bearer ', '')
-  const decoded = JWT.verify(token, 'my-secret')
+  const decoded = JWT.verify(token, process.env.JWT_SECRET)
 
   return decoded.userId
 }
@@ -16,7 +16,7 @@ export function checkAuth(userId) {
 }
 
 export function generateToken(userId) {
-  return JWT.sign({ userId }, 'my-secret', { expiresIn: '1d' })
+  return JWT.sign({ userId }, process.env.JWT_SECRET, { expiresIn: '1d' })
 }
 
 export function hashPassword(password) {
