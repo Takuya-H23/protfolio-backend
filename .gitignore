@@ -1,3 +1,5 @@
 node_modules
-db.js
 docker-compose.yml
+.graphqlconfig
+config/
+dist/
