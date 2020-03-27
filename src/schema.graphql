@@ -1,25 +1,38 @@
 type Query {
-  user(id: ID!): User!
+  user: User!
   users: [User!]!
   testimonials: [Testimonial!]!
   projects: [Project!]!
 }
 
 type Mutation {
-  createTestimonial(ownerId: ID!, input: CreateTestimonialInput!): Testimonial!
+  loginUser(input: LoginUserInput): AuthPayload!
+  createUser(input: CreateUserInput!): AuthPayload!
+  createTestimonial(input: CreateTestimonialInput!): Testimonial!
   updateTestimonial(
-    ownerId: ID!
     testimonialId: ID!
     input: UpdateTestimonialInput!
   ): Testimonial!
-  deleteTestimonial(ownerId: ID!, testimonialId: ID!): Testimonial!
-  createProject(ownerId: ID!, input: CreateProjectInput!): Project!
-  updateProject(
-    ownerId: ID!
-    projectId: ID!
-    input: UpdateProjectInput!
-  ): Project!
-  deleteProject(ownerId: ID!, projectId: ID!): Project!
+  deleteTestimonial(testimonialId: ID!): Testimonial!
+  createProject(input: CreateProjectInput!): Project!
+  updateProject(projectId: ID!, input: UpdateProjectInput!): Project!
+  deleteProject(projectId: ID!): Project!
+}
+
+type AuthPayload {
+  user: User!
+  token: String!
+}
+
+input LoginUserInput {
+  email: String!
+  password: String!
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+  password: String!
 }
 
 input CreateTestimonialInput {
@@ -57,7 +70,7 @@ input UpdateProjectInput {
 type User {
   id: ID!
   name: String!
-  email: String!
+  email: String
   testimonials: [Testimonial!]!
   projects: [Project!]!
 }
