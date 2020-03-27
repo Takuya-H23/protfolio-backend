@@ -1,18 +1,27 @@
 import prisma from '../../src/prisma'
 import bcrypt from 'bcryptjs'
+import JWT from 'jsonwebtoken'
 
-export default async () => {
+const userOne = {
+  input: {
+    name: 'Emma',
+    email: 'emma@example.com',
+    password: bcrypt.hashSync('password')
+  },
+  user: undefined,
+  jwt: undefined
+}
+
+const seedDatabase = async () => {
   await prisma.mutation.deleteManyProjects()
   await prisma.mutation.deleteManyTestimonials()
   await prisma.mutation.deleteManyUsers()
 
-  const user = await prisma.mutation.createUser({
-    data: {
-      name: 'Emma',
-      email: 'emma@example.com',
-      password: bcrypt.hashSync('password')
-    }
+  userOne.user = await prisma.mutation.createUser({
+    data: userOne.input
   })
+
+  userOne.jwt = JWT.sign({ userId: userOne.user.id }, process.env.JWT_SECRET)
 
   await prisma.mutation.createProject({
     data: {
@@ -23,7 +32,7 @@ export default async () => {
       liveAt: 'live.com',
       deployedAt: 'March 2019',
       tools: { set: ['React', 'GraphQL'] },
-      owner: { connect: { id: user.id } }
+      owner: { connect: { id: userOne.user.id } }
     }
   })
 
@@ -32,7 +41,9 @@ export default async () => {
       name: 'You',
       company: 'Google',
       text: 'You are awesome!',
-      owner: { connect: { id: user.id } }
+      owner: { connect: { id: userOne.user.id } }
     }
   })
 }
+
+export { seedDatabase as default, userOne }
