@@ -14,18 +14,19 @@ const Mutation = {
       token: generateToken(user.id)
     }
   },
-  async createUser(parent, { input }, { prisma }) {
-    const password = await hashPassword(input.password)
+  // closed because no users needed
+  // async createUser(parent, { input }, { prisma }) {
+  //   const password = await hashPassword(input.password)
 
-    const user = await prisma.mutation.createUser({
-      data: { ...input, password }
-    })
+  //   const user = await prisma.mutation.createUser({
+  //     data: { ...input, password }
+  //   })
 
-    return {
-      user,
-      token: generateToken(user.id)
-    }
-  },
+  //   return {
+  //     user,
+  //     token: generateToken(user.id)
+  //   }
+  // },
   async createTestimonial(parent, { input }, { prisma, userId }, info) {
     checkAuth(userId)
 
