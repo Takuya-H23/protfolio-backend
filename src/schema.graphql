@@ -7,7 +7,7 @@ type Query {
 
 type Mutation {
   loginUser(input: LoginUserInput): AuthPayload!
-  createUser(input: CreateUserInput!): AuthPayload!
+  # createUser(input: CreateUserInput!): AuthPayload!
   createTestimonial(input: CreateTestimonialInput!): Testimonial!
   updateTestimonial(
     testimonialId: ID!
@@ -29,11 +29,11 @@ input LoginUserInput {
   password: String!
 }
 
-input CreateUserInput {
-  name: String!
-  email: String!
-  password: String!
-}
+# input CreateUserInput {
+#   name: String!
+#   email: String!
+#   password: String!
+# }
 
 input CreateTestimonialInput {
   name: String!
